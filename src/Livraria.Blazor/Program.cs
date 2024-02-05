@@ -1,4 +1,6 @@
 using Livraria.Blazor.Components;
+using Livraria.CrossCutting.DependenciesApp;
+using Livraria.Infrastructure.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+//Registrar os serviços
+builder.Services.AddInfrastructure(builder.Configuration);
+
 var app = builder.Build();
+
+CreateDatabase(app);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -25,3 +32,10 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();
+
+static void CreateDatabase(WebApplication app)
+{
+    var serviceScope = app.Services.CreateScope();
+    var dataContext = serviceScope.ServiceProvider.GetService<LivrariaContext>();
+    dataContext?.Database.EnsureCreated();
+}
