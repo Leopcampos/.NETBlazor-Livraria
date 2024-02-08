@@ -11,9 +11,9 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("Sqlite");
+        var connectionString = configuration.GetConnectionString("LivrariaContext");
 
-        services.AddDbContext<LivrariaContext>(opt => opt.UseSqlite(connectionString));
+        services.AddDbContext<LivrariaContext>(opt => opt.UseSqlServer(connectionString));
 
         services.AddScoped<ILivroRepository, LivroRepository>();
 
