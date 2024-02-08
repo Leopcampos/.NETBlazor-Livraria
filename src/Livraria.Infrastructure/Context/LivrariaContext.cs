@@ -6,8 +6,7 @@ namespace Livraria.Infrastructure.Context;
 public class LivrariaContext : DbContext
 {
     public LivrariaContext(DbContextOptions<LivrariaContext> options) : base(options)
-    {
-    }
+    {}
 
     public DbSet<Livro>? Livros { get; set; }
 
